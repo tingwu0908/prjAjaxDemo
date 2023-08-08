@@ -13,6 +13,11 @@ namespace prjAjaxDemo.Controllers
             _logger = logger;
         }
 
+        public IActionResult First()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -27,6 +32,16 @@ namespace prjAjaxDemo.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult GetDemo()
+        {
+            return View();
+        }
+
+        public IActionResult Register()
+        {
+            return View();
         }
     }
 }

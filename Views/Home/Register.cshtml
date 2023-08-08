@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+@*        <form action="~/Api/GetDemo" method="post">*@
+        <form id="form1">
+            <div class="mb-3">
+                <label for="userName" class="form-label">Name: </label>
+                <input type="text" class="form-control" id="userName" name="Name" />
+                <div class="alert alert-warning" id="userNameAlert"></div>
+            </div>
+            <div class="mb-3">
+                <label for="userAge" class="form-label">Email: </label>
+                <input type="email" class="form-control" id="userEmail" name="Email" />
+            </div>
+            <div class="mb-3">
+                <label for="userAge" class="form-label">Age: </label>
+                <input type="number" class="form-control" id="userAge" name="Age" />
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Photo: </label>
+                <input class="form-control" type="file" id="formFile" name="file">
+            </div>
+            <button id="button1" type="submit" class="btn btn-primary">送出</button>
+        </form>
+        <div class="alert alert-info" id="div1"></div>
+    </div>
+    <div class="col-3">
+        <a href="https://www.ispan.com.tw" id="link1">ispan</a>
+    </div>
+</div>
+
+@section Styles{
+    <style></style>
+}
+
+@section Scripts{
+    <script>
+
+        const btn = document.querySelector('#button1');
+        const txtName = document.querySelector('#userName');
+        //const txtAge = document.querySelector('#userAge');
+        const div1 = document.querySelector('#div1');
+        const link1 = document.querySelector('#link1');
+        const divAlert = document.querySelector('#userNameAlert');
+
+
+        btn.addEventListener('click',event=>{
+            event.preventDefault();
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Api/Register/')
+            //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            //xhr.send(`name=${txtName.value}&age=${txtAge.value}`);
+
+            // Use FormData
+            const formData = new FormData(document.querySelector('#form1'));
+            xhr.send(formData);
+
+            xhr.addEventListener('load',()=>{
+                const data = xhr.responseText;
+                div1.innerHTML = data;
+            })
+        })
+
+
+        link1.addEventListener('click', event => {
+            if (!window.confirm("真的要去嗎??")) {
+                event.preventDefault();
+            }
+        })
+
+        txtName.addEventListener('blur',()=>{
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Api/CheckAccount');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`txtName=${txtName.value}`);
+
+            xhr.addEventListener('load', ()=>{
+                if(xhr.responseText=="0"){
+                    btn.setAttribute('disabled','disabled');
+                    divAlert.innerHTML = `<h6>帳號已經存在</h6>`;
+                }
+                else if (xhr.responseText == "1") {
+                    btn.removeAttribute('disabled');
+                    divAlert.innerHTML = `<h6>帳號可使用</h6>`;
+
+                }
+            })
+        })
+
+
+    </script>
+}

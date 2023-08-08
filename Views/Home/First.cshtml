@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "First";
+}
+
+<h1>First</h1>
+<button class="btn btn-primary" id="button1">Click Me</button><img src="~/images/1494.gif" id="loading" />
+<button class="btn btn-danger" id="button2">Cancel</button>
+<div class="alert alert-info" id="div1"></div>
+
+@section Styles{
+    <style>
+        #loading {
+            display: none;
+        }
+    </style>
+}
+
+@section Scripts{
+    <script>
+        const btnLoad = document.querySelector('#button1');
+        const btnCancel = document.querySelector('#button2');
+        const mydiv = document.querySelector('#div1');
+        const iconloading = document.querySelector('#loading');
+        const xhr = new XMLHttpRequest();
+
+        xhr.addEventListener('loadstart',()=>{
+            btnLoad.setAttribute('disabled','disabled');
+            btnLoad.textContent = 'Loading...';
+            iconloading.style.display = "inline";
+            mydiv.innerHTML += `<h3>Ajax開始</h3>`;
+        })
+
+        btnLoad.addEventListener('click',()=>{
+            //mydiv.innerHTML = "Button Clicked";
+            xhr.open('GET','/Api/Index');
+            xhr.timeout = 3000;
+            xhr.send();
+
+            xhr.addEventListener('load',()=>{
+                const data = xhr.responseText;
+                mydiv.innerHTML += `<h3>${data}</h3>`;
+            })
+        })
+
+        xhr.addEventListener('loadend', () => {
+            btnLoad.removeAttribute('disabled');
+            btnLoad.textContent = 'Click Me';
+            iconloading.style.display = "none";
+            mydiv.innerHTML += `<h3>Ajax結束</h3>`;
+
+        })
+
+        xhr.addEventListener('timeout',()=>{
+            mydiv.innerHTML += `<h3>系統忙碌中請稍後再試</h3>`;
+        })
+
+        btnCancel.addEventListener('click',()=>{
+            xhr.abort();
+        })
+
+        xhr.addEventListener('abort',()=>{
+            mydiv.innerHTML += `<h3>已取消執行</h3>`;
+
+        })
+    </script>
+}

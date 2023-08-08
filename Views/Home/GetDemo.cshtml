@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "GetDemo";
+}
+
+<h1>GetDemo</h1>
+<div id="div1"></div>
+
+@section Styles{
+    <style>
+
+    </style>
+}
+
+@section Scripts{
+    <script>
+        //Step1
+        const xhr = new XMLHttpRequest();
+
+        //Step2
+        xhr.open('GET', '/api/GetDemo?name=kk&age=10');
+        xhr.send();
+        
+        //Step3
+        xhr.addEventListener('load',()=>{
+            const data =xhr.responseText;
+            //Step4
+            //Step5
+            document.querySelector('#div1').innerHTML = data;
+        })
+
+
+        
+    </script>
+}
