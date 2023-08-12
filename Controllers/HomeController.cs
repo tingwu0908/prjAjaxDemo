@@ -43,5 +43,14 @@ namespace prjAjaxDemo.Controllers
         {
             return View();
         }
+        public IActionResult ReadJson()
+        {
+            return View();
+        }
+
+        public IActionResult Travel()
+        {
+            return View();
+        }
     }
 }

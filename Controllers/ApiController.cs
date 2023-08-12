@@ -58,14 +58,9 @@ namespace prjAjaxDemo.Controllers
             return Content("新增成功！");
         }
 
-        public IActionResult CheckAccount(vmCheckName vm)
+        public bool CheckAccount(vmCheckName vm)
         {
-            Members? mem = _context.Members.Where(m => m.Name == vm.txtName).FirstOrDefault();
-            if (mem == null)
-            {
-                return Content("1");
-            }
-            return Content("0");
+            return _context.Members.Any(m => m.Name == vm.txtName);
         }
     }
 }

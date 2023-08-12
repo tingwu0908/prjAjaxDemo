@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Travel";
+}
+
+<h1>Travel</h1>
+
+<div id="div1" class="d-flex row"></div>
+
+@section Scripts{
+    <script src="~/datas/travel.js"></script>
+    <script>
+        //spots
+
+        for(let i = 0;i<spots.CommonFormat.Section.length;i++){
+            const obj = spots.CommonFormat.Section[i];
+            document.querySelector('#div1').innerHTML += `
+            <div class="card" style="width: 18rem;">
+                <img src="${obj.file.img[0].text}" class="card-img-top"/>
+                <div class="card-body">
+                <h5 class="card-title">${obj.stitle}</h5>
+                <p class="card-text">${obj.xbody.substring(0, 100)}...</p>
+                <a href="${obj.xurl}" class="btn btn-primary">Visit Website</a>
+                </div>
+            </div>`
+        }
+
+    </script>
+}
+
+@section Styles{
+
+}
