@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "ReadJson";
+}
+
+<h1>jQReadJson</h1>
+
+<div>
+    <table id="empTable" class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>年資</th>
+                <th>薪水</th>
+            </tr>
+        </thead>
+        <tbody id="tb"></tbody>
+    </table>
+</div>
+
+@section Styles{
+    <style>
+        p {
+            background-color: burlywood;
+        }
+    </style>
+}
+
+@section Scripts{
+
+    <script>
+        const emp = {
+            "employees": [
+                { "name": "Tom", "workYears": 3, "salary": 35000 },
+                { "name": "Jack", "workYears": 5, "salary": 40000 },
+                { "name": "Mary", "workYears": 7, "salary": 45000 }
+            ]
+        };
+
+        for(let i=0;i<emp.employees.length;i++){
+            $('#tb').append(`<tr><td>${emp.employees[i].name}</td><td>${emp.employees[i].workYears}</td><td>${emp.employees[i].salary}</td></tr>`)
+        }
+
+
+
+        //document.querySelector('#empTable>tbody').innerHTML = datas.join("")
+    </script>
+}

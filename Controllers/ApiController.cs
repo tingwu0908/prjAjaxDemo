@@ -56,21 +56,9 @@ namespace prjAjaxDemo.Controllers
             return Content("新增成功！");
         }
 
-        public IActionResult GetImageByte(int id)
+        public IActionResult CheckAccount(vmCheckName vm)
         {
-            Members? mem = _context.Members.Find(id);
-            byte[]? img = mem.FileData;
-            return File(img, "image/jpeg");
-        }
-
-        public IActionResult CheckAccount(string txtName)
-        {
-            Members? mem = _context.Members.Where(m => m.Name == txtName).FirstOrDefault();
-            if (mem == null)
-            {
-                return Content("1");
-            }
-            return Content("0");
+            return _context.Members.Any(m => m.Name == vm.txtName);
         }
 
         public IActionResult Cities()

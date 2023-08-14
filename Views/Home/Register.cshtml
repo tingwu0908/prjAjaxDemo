@@ -25,13 +25,14 @@
             <div class="mb-3">
                 <label for="formFile" class="form-label">Photo: </label>
                 <input class="form-control" type="file" id="formFile" name="file">
+                <img src="" style="height:200px;width:250px;" id="preview" alt="檔案預覽"/>
             </div>
             <button id="button1" type="submit" class="btn btn-primary">送出</button>
         </form>
         <div class="alert alert-info" id="div1"></div>
     </div>
     <div class="col-3">
-        <a href="https://www.ispan.com.tw" id="link1">ispan</a>
+        <a href="https://www.ispan.com.tw" id="link1" style="display:none;">ispan</a>
     </div>
 </div>
 
@@ -48,7 +49,7 @@
         const div1 = document.querySelector('#div1');
         const link1 = document.querySelector('#link1');
         const divAlert = document.querySelector('#userNameAlert');
-
+        const upload = document.querySelector('#formFile');
 
         btn.addEventListener('click',event=>{
             event.preventDefault();
@@ -93,6 +94,8 @@
             }
         })
 
+
+        //判斷帳號是否存在
         txtName.addEventListener('blur',()=>{
             const xhr = new XMLHttpRequest();
             xhr.open('POST', `@Url.Content("/Api/CheckAccount")?txtName=${txtName.value}`);
@@ -100,17 +103,34 @@
             xhr.send();
 
             xhr.addEventListener('load', ()=>{
-                if(xhr.responseText=="0"){
+                if(xhr.responseText=='true'){
                     btn.setAttribute('disabled','disabled');
                     divAlert.innerHTML = `<h6 class="text-danger">帳號已經存在</h6>`;
                 }
-                else if (xhr.responseText == "1") {
+                else if (xhr.responseText == 'false') {
                     btn.removeAttribute('disabled');
                     divAlert.innerHTML = `<h6 class="text-success">帳號可使用</h6>`;
 
                 }
             })
         })
+
+        //上傳預覽圖
+
+        upload.addEventListener('change',()=>{
+            const image = upload.files[0];
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                document.querySelector('#preview').src = reader.result;
+            }, false);
+
+            if (image) {
+                reader.readAsDataURL(image);
+            }
+
+        })
+
 
 
     </script>
