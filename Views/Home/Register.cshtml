@@ -54,19 +54,37 @@
             event.preventDefault();
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/Api/Register/')
+            xhr.open('POST', '@Url.Content( "/Api/Register")')
             //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             //xhr.send(`name=${txtName.value}&age=${txtAge.value}`);
 
-            // Use FormData
-            const formData = new FormData(document.querySelector('#form1'));
-            xhr.send(formData);
+            //// Use FormData
+            //const formData = new FormData(document.querySelector('#form1'));
+            //xhr.send(formData);
 
-            xhr.addEventListener('load',()=>{
-                const data = xhr.responseText;
-                div1.innerHTML = data;
+            //xhr.addEventListener('load',()=>{
+            //    const data = xhr.responseText;
+            //    div1.innerHTML = data;
+            //})
+
+            //改用Fetch
+            const formData = new FormData(document.querySelector('#form1'));
+            fetch('@Url.Content("/Api/Register")', {
+                body: formData,
+                method: "POST",
+            }).then(response => {
+                if (response.ok) {
+                    alert("新增成功");
+                    location.href = '@Url.Content("/Members")';
+                }
+                else {
+                    alert("有錯誤");
+                }
             })
         })
+
+
+
 
 
         link1.addEventListener('click', event => {
@@ -77,18 +95,18 @@
 
         txtName.addEventListener('blur',()=>{
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/Api/CheckAccount');
+            xhr.open('POST', `@Url.Content("/Api/CheckAccount")?txtName=${txtName.value}`);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(`txtName=${txtName.value}`);
+            xhr.send();
 
             xhr.addEventListener('load', ()=>{
                 if(xhr.responseText=="0"){
                     btn.setAttribute('disabled','disabled');
-                    divAlert.innerHTML = `<h6>帳號已經存在</h6>`;
+                    divAlert.innerHTML = `<h6 class="text-danger">帳號已經存在</h6>`;
                 }
                 else if (xhr.responseText == "1") {
                     btn.removeAttribute('disabled');
-                    divAlert.innerHTML = `<h6>帳號可使用</h6>`;
+                    divAlert.innerHTML = `<h6 class="text-success">帳號可使用</h6>`;
 
                 }
             })

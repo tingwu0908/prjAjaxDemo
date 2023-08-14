@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using prjAjaxDemo.ViewModels;
 using prjAjaxDemo.Models;
-
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 
 namespace prjAjaxDemo.Controllers
 {
@@ -19,8 +19,9 @@ namespace prjAjaxDemo.Controllers
 
         public IActionResult Index()
         {
-            System.Threading.Thread.Sleep(5000);
-            return Content("Hello Ajax!");
+            //System.Threading.Thread.Sleep(5000);
+            //return Content("Hello Ajax!");
+            return Content("Hello Fetch");
         }
         public IActionResult GetDemo(UserViewModel user)
         {
@@ -32,9 +33,6 @@ namespace prjAjaxDemo.Controllers
         }
         public IActionResult Register(Members member, IFormFile file)
         {
-
-
-
             //將檔案上傳至uploads資料夾
             string filePath = Path.Combine(_host.WebRootPath, "uploads", file.FileName);
             using(var fileStream = new FileStream(filePath, FileMode.Create))
@@ -58,14 +56,39 @@ namespace prjAjaxDemo.Controllers
             return Content("新增成功！");
         }
 
-        public IActionResult CheckAccount(vmCheckName vm)
+        public IActionResult GetImageByte(int id)
         {
-            Members? mem = _context.Members.Where(m => m.Name == vm.txtName).FirstOrDefault();
+            Members? mem = _context.Members.Find(id);
+            byte[]? img = mem.FileData;
+            return File(img, "image/jpeg");
+        }
+
+        public IActionResult CheckAccount(string txtName)
+        {
+            Members? mem = _context.Members.Where(m => m.Name == txtName).FirstOrDefault();
             if (mem == null)
             {
                 return Content("1");
             }
             return Content("0");
+        }
+
+        public IActionResult Cities()
+        {
+            var cities = _context.Address.Select(a => a.City).Distinct();
+            return Json(cities);
+        }
+
+        public IActionResult Districts(string city)
+        {
+            var dist = _context.Address.Where(a => a.City == city).Select(a=>a.SiteId).Distinct();
+            return Json(dist);
+        }
+
+        public IActionResult Roads(string siteId)
+        {
+            var roads = _context.Address.Where(a=>a.SiteId==siteId).Select(a=>a.Road).Distinct();
+            return Json(roads);
         }
     }
 }

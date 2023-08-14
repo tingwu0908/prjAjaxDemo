@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "Fetch";
+}
+
+<h1>Fetch</h1>
+<div class="alert alert-info" id="div1"></div>
+<img id="img1" />
+<ul id="ul1"></ul>
+
+@section Scripts{
+    <script>
+        //console.log(fetch('@Url.Content("/api/index")'));
+        //fetch('@Url.Content("/api/index")')
+        //    .then(response=>{
+        //        console.log(response)
+        //        console.log(response.status)
+        //        console.log(response.text())
+        //})
+
+        //文字
+        fetch('@Url.Content("/api/index")')
+            .then(response => response.text())   //這裡 response.text() 等於 { return response.text() } //會回傳promise物件
+            .then(data => {                                       //再then一次 取出text結果
+                document.querySelector('#div1').innerHTML = data;
+            })
+
+        //JSON
+        //fetch('@Url.Content("/api/Cities")')
+        //    .then(response => response.json())   
+        //    .then(data => {
+        //        const list = data.map(d=>`<li>${d}</li>`)
+        //        document.querySelector('#ul1').innerHTML = list.join("")
+        //    })
+        async function loadJson(){
+            const response = await fetch('@Url.Content("/api/Cities")');
+            const data = await response.json();
+            const list = data.map(d=>`<li>${d}</li>`)
+                document.querySelector('#ul1').innerHTML = list.join("")
+        }
+        
+        loadJson();
+
+
+        //圖片
+        //fetch('@Url.Content("/api/GetImageByte/1")')
+        //    .then(response => response.blob())
+        //    .then(data => {
+        //        const myimg = document.querySelector("#img1")
+        //        myimg.src = URL.createObjectURL(data)
+        //    })
+
+        async function loadImg(){
+            const response = await fetch('@Url.Content("/api/GetImageByte/1")');
+            const data = await response.blob()
+            const myimg = document.querySelector("#img1")
+            myimg.src = URL.createObjectURL(data)
+        }
+        
+        loadImg();
+
+    </script>
+}

@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "Jquery";
+}
+
+<h1>jQuery</h1>
+<button id="buttonGet" class="btn btn-primary">get</button>
+<button id="buttonPost" class="btn btn-secondary">post</button>
+<button id="buttonJson" class="btn btn-success">getJson</button>
+<button id="buttonLoad" class="btn btn-info">load</button>
+<button id="buttonAjax" class="btn btn-warning">ajax</button>
+<button id="buttonCors" class="btn btn-danger">cors</button>
+<div class="alert alert-dark mt-3 w-50" role="alert" id="divAlert">
+    <ul></ul>
+</div>
+@Html.Partial("partial1")
+@Html.Partial("Partial2")
+
+@section Scripts{
+    <script>
+        $('#buttonGet').click(function(){
+            $.get('@Url.Content("~/Api/GetDemo")',{"name":"mnm","age":"19"},function(data){
+                $('#divAlert').text(data)
+            })
+        })
+
+        $('#buttonPost').click(function () {
+            $.post('@Url.Content("~/Api/GetDemo")', { "name": "trr", "age": "21" }, function (data) {
+                $('#divAlert').text(data)
+            })
+        })
+
+        $('#buttonJson').click(function () {
+            $.getJSON('@Url.Content("~/Api/Cities")', function (datas) {
+                const theul = $('#divAlert >ul');
+                const docFrag = $(document.createDocumentFragment())  //建立一個空元素(容器)
+                //先建一個容器來裝東西 再放到畫面上 
+                //jq迴圈中避免使用selector和append
+                $.each(datas, function (idx, city) {
+                        console.log(city)
+                        const item = $('<li></li>').text(city);
+                        docFrag.append(item);
+                })
+                theul.html(docFrag);
+            })
+        })
+
+        $('#buttonLoad').click(function(){
+            $('#divAlert').load('@Url.Content("~/Home/partial1")')
+            $('#divAlert').load('@Url.Content("~/Home/Partial2")')
+        })
+
+        $('#buttonAjax').click(function () {
+            //$.ajax({
+            //    'url': '@Url.Content("~/Api/GetDemo")',
+            //    'type':'POST',
+            //    'data': { "name": "hrk", "age": "17" },
+            //     'success': function (data) {
+            //        $('#divAlert').text(data)}
+            //})
+            $.ajax({
+                'url': '@Url.Content("~/Api/Cities")',
+                'type': 'GET',
+                'dataType':'json'
+            }).done(function (datas) {
+                const theul = $('#divAlert >ul');
+                const docFrag = $(document.createDocumentFragment())  //建立一個空元素(容器)
+                $.each(datas, function (idx, city) {
+                    console.log(city)
+                    const item = $('<li></li>').text(city);
+                    docFrag.append(item);
+                })
+                theul.html(docFrag);
+            })
+
+        })
+
+        $('#buttonCors').click(function () {
+            $.getJSON('https://localhost:7033/api/Shippers',function(data){
+                console.log(data)
+            })
+        })
+
+    </script>
+}

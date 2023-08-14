@@ -43,5 +43,36 @@ namespace prjAjaxDemo.Controllers
         {
             return View();
         }
+
+        public IActionResult Address()
+        {
+            return View();
+        }
+
+        public IActionResult Promise()
+        {
+            return View();
+        }
+
+        public IActionResult Fetch()
+        {
+            return View();
+        }
+
+        public IActionResult Jquery()
+        {
+            return View();
+        }
+
+        public IActionResult partial1()
+        {
+            return PartialView();
+        }
+
+        public IActionResult Partial2()
+        {
+            ViewBag.KK = "message from action";
+            return PartialView();
+        }
     }
 }

@@ -33,7 +33,12 @@
 
         btnLoad.addEventListener('click',()=>{
             //mydiv.innerHTML = "Button Clicked";
-            xhr.open('GET','/Api/Index');
+
+            // xhr.open('GET', '/api/index');  //開發時不會錯，佈署到伺服器上就會有可能出錯
+            // xhr.open('GET', '~/api/index'); //一定不可以
+            //建議要用下面的兩種寫法來產生路徑
+            //   xhr.open('GET','@Url.Action("index","api")')
+            xhr.open('GET','@Url.Content("/Api/Index")');
             xhr.timeout = 3000;
             xhr.send();
 
