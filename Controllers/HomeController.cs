@@ -83,5 +83,9 @@ namespace prjAjaxDemo.Controllers
             ViewBag.KK = "message from action";
             return PartialView();
         }
+        public IActionResult AddressAA()
+        {
+            return View();
+        }
     }
 }

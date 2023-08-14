@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="selectCity"></select>
+<select id="selectDistrict"></select>
+<select id="selectRoad"></select>
+<div class="alert alert-primary" id="mydiv"></div>
+
+@section Styles{
+    <style>
+    </style>
+}
+
+@section Scripts{
+    <script>
+        const seleCity = document.querySelector('#selectCity');
+        const seleDist = document.querySelector('#selectDistrict');
+        const seleRoad = document.querySelector('#selectRoad');
+        const mydiv = document.querySelector('#mydiv');
+
+        async function loadCities(){
+            const response = await fetch('@Url.Content("/Api/Cities")');
+            const data = await response.json();
+                const cities = data.map(city => `<option value='${city}'>${city}</option>`)
+                //console.log(cities)
+                seleCity.innerHTML = cities.join("");
+                
+                loadDist();
+            }
+
+        async function loadDist(){
+            const response = await fetch(`@Url.Content("/Api/Districts")?city=${seleCity.value}`);
+            const data = await response.json();
+            const dist = data.map(dist => `<option value='${dist}'>${dist}</option>`)
+                seleDist.innerHTML = dist.join("");
+
+                loadRoad();
+            }
+
+        async function loadRoad(){
+            const response = await fetch(`@Url.Content("/Api/Roads")?siteId=${seleDist.value}`);
+            const data = await response.json();
+                const roads = data.map(roads=>`<option value="${roads}">${roads}</option>`)
+                seleRoad.innerHTML =  roads.join("");
+                show();
+            }
+
+        function show(){
+            mydiv.textContent = `${seleDist.value} ${seleRoad.value}`
+        }
+
+        loadCities();
+
+        seleCity.addEventListener('change',()=>{
+            //console.log(seleCity.value)
+            loadDist();
+        })
+
+        seleDist.addEventListener('change',()=>{
+            loadRoad();
+        })
+
+        seleRoad.addEventListener('change',()=>{
+            show();
+        })
+
+    </script>
+}
