@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "AutoComplete";
+}
+
+<h1>AutoComplete</h1>
+
+<input type="text" size="30" id="input"/>
+<table id="t1"></table>
+
+@section Styles{
+
+}
+@section Scripts{
+    <script>
+        const input1 = document.querySelector('#input');
+        const t1 = document.querySelector('#t1');
+
+        async function loadCities(query) {
+            const response = await fetch('@Url.Content("/Api/Cities")');
+            const data = await response.json();
+            const result = data.filter(function (el) {
+                return el.indexOf(query) > -1;
+            }).map(e=>`<tr><td class="item">${e}</td></tr>`);
+            console.log(result);
+            t1.innerHTML = result.join("")
+        }
+
+        input1.addEventListener('input', ()=>{
+            t1.style.display = '';
+            loadCities(input1.value);
+        })
+
+        input1.addEventListener('focus', () => {
+            t1.style.display = '';
+        })
+
+        input1.addEventListener('blur', () => {
+            t1.style.display = 'none'
+        })
+
+
+        
+    </script>
+}
