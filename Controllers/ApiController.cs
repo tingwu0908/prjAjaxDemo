@@ -56,9 +56,9 @@ namespace prjAjaxDemo.Controllers
             return Content("新增成功！");
         }
 
-        public IActionResult CheckAccount(vmCheckName vm)
+        public bool CheckAccount(string txtName)
         {
-            return _context.Members.Any(m => m.Name == vm.txtName);
+            return _context.Members.Any(m => m.Name == txtName);
         }
 
         public IActionResult Cities()
