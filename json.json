@@ -1,0 +1,145 @@
+//{
+//  "tags": [
+//    {
+//      "name": "animal",
+//      "confidence": 0.9978785514831543
+//    },
+//    {
+//      "name": "mammal",
+//      "confidence": 0.9943463802337646
+//    },
+//    {
+//      "name": "cat",
+//      "confidence": 0.992526650428772
+//    },
+//    {
+//      "name": "domestic cat",
+//      "confidence": 0.9874010682106018
+//    },
+//    {
+//      "name": "small to medium-sized cats",
+//      "confidence": 0.9843102693557739
+//    },
+//    {
+//      "name": "whiskers",
+//      "confidence": 0.9699690341949463
+//    },
+//    {
+//      "name": "felidae",
+//      "confidence": 0.9570861458778381
+//    },
+//    {
+//      "name": "arabian mau",
+//      "confidence": 0.8767400979995728
+//    },
+//    {
+//      "name": "domestic short-haired cat",
+//      "confidence": 0.876152753829956
+//    },
+//    {
+//      "name": "nap",
+//      "confidence": 0.8683626651763916
+//    },
+//    {
+//      "name": "malayan cat",
+//      "confidence": 0.867346465587616
+//    },
+//    {
+//      "name": "indoor",
+//      "confidence": 0.8634834289550781
+//    },
+//    {
+//      "name": "orange",
+//      "confidence": 0.8582916855812073
+//    },
+//    {
+//      "name": "tabby cat",
+//      "confidence": 0.8500509858131409
+//    },
+//    {
+//      "name": "laying",
+//      "confidence": 0.8316388130187988
+//    },
+//    {
+//      "name": "sleeping",
+//      "confidence": 0.6314507126808167
+//    }
+//  ],
+//  "description": {
+//    "tags": [ "cat", "orange", "indoor", "domestic cat", "laying", "close" ],
+//    "captions": [
+//      {
+//        "text": "a cat sleeping on a blanket",
+//        "confidence": 0.5894474983215332
+//      }
+//    ]
+//  },
+//  "requestId": "2e69a879-6a72-4d75-a8f0-626b65f746b7",
+//  "metadata": {
+//    "height": 800,
+//    "width": 1200,
+//    "format": "Jpeg"
+//  },
+//  "modelVersion": "2021-05-01"
+//}
+
+
+
+{
+  "OriginalText": "Is this a crap email abcdef@abcd.com, phone: 6657789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052",
+  "NormalizedText": "   crap email abcdef@abcd.com, phone: 6657789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052",
+  "AutoCorrectedText": "Is this a crap email abcdef@abcd.com, phone: 6657789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052",
+  "Misrepresentation": null,
+  "PII": {
+    "Email": [
+      {
+        "Detected": "abcdef@abcd.com",
+        "SubType": "Regular",
+        "Text": "abcdef@abcd.com",
+        "Index": 21
+      }
+    ],
+    "IPA": [
+      {
+        "SubType": "IPV4",
+        "Text": "255.255.255.255",
+        "Index": 61
+      }
+    ],
+    "Phone": [
+      {
+        "CountryCode": "US",
+        "Text": "6657789887",
+        "Index": 45
+      }
+    ],
+    "Address": [
+      {
+        "Text": "1 Microsoft Way, Redmond, WA 98052",
+        "Index": 78
+      }
+    ],
+    "SSN": []
+  },
+  "Classification": {
+    "ReviewRecommended": true,
+    "Category1": { "Score": 0.00040505084325559437 },
+    "Category2": { "Score": 0.2234508991241455 },
+    "Category3": { "Score": 0.9879999756813049 }
+  },
+  "Language": "eng",
+  "Terms": [
+    {
+      "Index": 3,
+      "OriginalIndex": 10,
+      "ListId": 0,
+      "Term": "crap"
+    }
+  ],
+  "Status": {
+    "Code": 3000,
+    "Description": "OK",
+    "Exception": null
+  },
+  "TrackingId": "60e7df7d-651f-49ce-8673-339bc1bf166c"
+}

@@ -1,0 +1,52 @@
+﻿<div>
+    <h3>圖片審核</h3>
+    <div class="m-1">
+        <h5>圖片網址: </h5>
+        <input id="imgUrl" type="text" class="form-control" value="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/RedCat_8727.jpg/1200px-RedCat_8727.jpg" />
+        <img id="imgPreview" src="~/images/noimg.jpg" style="height:300px;margin-top:1em;" />
+    </div>
+        <button class="btn btn-outline-primary mt-3" onclick="analyze()">GO!</button>
+    <div>
+        <h6 class="m-3" id="result"></h6>
+    </div>
+    </div>
+
+
+ @section Scripts{
+     <script>
+         function analyze(){
+            var params = {
+                "CacheImage": false,
+            };
+
+            $('#imgPreview').attr('src', $('#imgUrl').val());
+
+            const data = {
+                    "DataRepresentation": "URL",
+                "Value": $('#imgUrl').val()
+            }
+
+            $.ajax({
+                url: "https://msit150team03contentmoderator02.cognitiveservices.azure.com/contentmoderator/moderate/v1.0/ProcessImage/Evaluate?" + $.param(params),
+                beforeSend: function (xhrObj) {
+                    // Request headers
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a8501eacbaf442dcb90655854a91d9f6");
+                },
+                type: "POST",
+                // Request body
+                data: JSON.stringify(data),
+            })
+                .done(function (data) {
+                    alert(JSON.stringify(data));
+                    //var desc = data['description']['captions'][0]['text'];
+                    //var conf = data['description']['captions'][0]['confidence'];
+                    //$('#result').html(`${desc} -- ${conf}`)
+                })
+                .fail(function () {
+                    alert("error");
+                });
+
+         }
+     </script>
+     }

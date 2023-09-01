@@ -1,0 +1,82 @@
+﻿<div>
+    <h3>Azure圖像辨識</h3>
+    <div class="m-1">
+        <h5>圖片檔案: </h5>
+        <input id="imgUp" type="file" class="form-control" accept="image/*" />
+        <img id="imgPreview" src="~/images/noimg.jpg" style="height:300px;margin-top:1em;" />
+    </div>
+    <button class="btn btn-outline-primary mt-3" onclick="analyze()">GO!</button>
+    <div>
+        <h6 class="m-3" id="result"></h6>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        let arrayBuffer = null;
+        $('#imgUp').on('change', function(){
+            const file = this.files[0];
+            const allowFileType = 'image.*'
+            if(file.type.match(allowFileType)){
+                const reader = new FileReader();
+
+                reader.onload = function(){
+                    arrayBuffer = this.result;
+                    const blob = new Blob([arrayBuffer],{type:"image/jpeg"});
+                    const urlCreator = window.URL || window.webkitURL;
+                    const objectUrl = urlCreator.createObjectURL(blob);
+                    $("#imgPreview").attr("src",objectUrl);
+                };
+
+                reader.readAsArrayBuffer(file);
+            }
+            else{
+                alert("檔案格式錯誤");
+            }
+        });
+
+
+        function analyze() {
+            var params = {
+                // Request parameters
+                "visualFeatures": "Description,Tags",
+                //"details": "{string}",
+                "language": "en",
+                "model-version": "latest",
+            };
+
+            //$('#imgPreview').attr('src', $('#imgUrl').val());
+
+            //const data = {
+            //    url: $('#imgUrl').val()
+            //}
+
+            $.ajax({
+                url: "https://msit150team03vision.cognitiveservices.azure.com/vision/v3.2/analyze?" + $.param(params),
+                beforeSend: function (xhrObj) {
+                    // Request headers
+                    xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "b33413b3509c4e359a65a0aad1a0d410");
+                },
+                type: "POST",
+                // Request body
+                processData:false,
+                data: arrayBuffer
+            })
+                .done(function (data) {
+                    alert(JSON.stringify(data));
+                    let desc = data['description']['captions'][0]['text'];
+                    let conf = data['description']['captions'][0]['confidence'];
+                    $('#result').html(`${desc} -- ${conf}`);
+                })
+                .fail(function () {
+                    alert("error");
+                });
+
+        }
+
+        
+    </script>
+ }

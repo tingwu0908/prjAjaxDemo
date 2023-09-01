@@ -1,0 +1,49 @@
+﻿<div>
+    <h3>文字審核</h3>
+    <div class="m-1">
+        <h5>文字: </h5>
+        <input id="inputText" type="text" class="form-control" value="Is this a crap email abcdef@abcd.com, phone: 6657789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052" />
+    </div>
+    <button class="btn btn-outline-primary mt-3" onclick="analyze()">GO!</button>
+    <div>
+        <h6 class="m-3" id="result"></h6>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function analyze() {
+            var params = {
+                // Request parameters
+                "autocorrect": true,
+                "PII": true,
+                "classify": true,
+                "language": "eng",
+            };
+
+            $.ajax({
+                url: "https://msit150team03contentmoderator02.cognitiveservices.azure.com/contentmoderator/moderate/v1.0/ProcessText/Screen?" + $.param(params),
+                beforeSend: function (xhrObj) {
+                    // Request headers
+                    xhrObj.setRequestHeader("Content-Type", "text/plain");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "a8501eacbaf442dcb90655854a91d9f6");
+                },
+                type: "POST",
+                // Request body
+                data: $('#inputText').val(),
+            })
+                .done(function (data) {
+                    alert(JSON.stringify(data));
+                    console.log(JSON.stringify(data))
+                    //var desc = data['description']['captions'][0]['text'];
+                    //var conf = data['description']['captions'][0]['confidence'];
+                    //$('#result').html(`${desc} -- ${conf}`)
+                })
+                .fail(function () {
+                    alert("error");
+                });
+
+        }
+    </script>
+     }
